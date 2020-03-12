@@ -19,4 +19,4 @@ Utilizei ESLint, Prettier, EditorConfig, React Navigation e todas outras ferrame
 
 ### Resultado:
 
-<img src=".github/demo.gif" height="400">
+https://github.com/Rocketseat/bootcamp-gostack-desafio-07/raw/master/.github/demo.gif
