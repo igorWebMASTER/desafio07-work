@@ -5,10 +5,7 @@ import rootReducer from './modules/rootReducer';
 import rootSaga from './modules/rootSaga';
 
 const sagaMonitor = __DEV__ ? console.tron.createSagaMonitor() : null;
-const sagaMiddleware = __DEV__
-  ? // eslint-disable-next-line no-console
-    console.tron.createSagaMiddleware({ sagaMonitor })
-  : null;
+const sagaMiddleware = createSagaMiddleware({ sagaMonitor });
 
 const enhancer = __DEV__
   ? compose(console.tron.createEnhancer(), applyMiddleware(sagaMiddleware))

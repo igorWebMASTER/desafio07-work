@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FlatList } from 'react-native';
 
 import { connect } from 'react-redux';
-import { bindActionsCreators } from 'redux';
-// import  from '@react-native-community/async-storage';
+import { bindActionCreators } from 'redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import * as CardActions from '../../store/modules/cart/actions';
+import * as CartActions from '../../store/modules/cart/actions';
 
 import api from '../../services/api';
 import { formatPrice } from '../../util/format';
@@ -35,7 +34,12 @@ class Main extends React.Component {
   getProducts = async () => {
     const response = await api.get('/products');
 
-    const data = response.data.map(pro);
+    const data = response.data.map(product => ({
+      ...product,
+      priceFormatted: formatPrice(product.price),
+    }));
+
+    this.setState({ products: data });
   };
 
   handleAddProduct = id => {
@@ -44,46 +48,49 @@ class Main extends React.Component {
     addToCartRequest(id);
   };
 
-  handleAddUser = async () => {
-    const { users, newUser } = this.state;
+  renderProduct = ({ item }) => {
+    const { amount } = this.props;
 
-    this.setState({ loading: true });
-
-    const response = await api.get(`/users/${newUser}`);
-
-    const data = {
-      name: response.data.name,
-      login: response.data.login,
-      bio: response.data.bio,
-      avatar: response.data.avatar_url,
-    };
-
-    this.setState({
-      users: [...users, data],
-      newUser: '',
-      loading: false,
-    });
-
-    Keyboard.dismiss();
-  };
-
-  handleNavigate = user => {
-    const { navigation } = this.props;
-
-    navigation.navigate('User', { user });
+    return (
+      <Product key={item.id}>
+        <ProductImage source={{ uri: item.image }} />
+        <ProductTitle>{item.title}</ProductTitle>
+        <ProductPrice>{formatPrice(item.price)}</ProductPrice>
+        <AddButton onPress={() => this.handleAddProduct(item.id)}>
+          <ProductAmount>
+            <Icon name="add-shopping-cart" color="#FFF" size={20} />
+            <ProductAmountText>{amount[item.id] || 0}</ProductAmountText>
+          </ProductAmount>
+          <AddButtonText>ADICIONAR</AddButtonText>
+        </AddButton>
+      </Product>
+    );
   };
 
   render() {
-    const { users, newUser, loading } = this.state;
+    const { products } = this.state;
     return (
       <Container>
-        <ProductList>
-          <Li>
-            <ProdImage source="https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg" />
-            <Strong>Produto nome Legal</Strong>
-          </Li>
-        </ProductList>
+        <FlatList
+          horizontal
+          data={products}
+          extraData={this.props}
+          keyExtractor={item => String(item.id)}
+          renderItem={this.renderProduct}
+        />
       </Container>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  amount: state.cart.reduce((amount, product) => {
+    amount[product.id] = product.amount;
+    return amount;
+  }, {}),
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
