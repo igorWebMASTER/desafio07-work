@@ -1,38 +1,42 @@
 import React, { Component } from 'react';
-import { Keyboard, ActivityIndicator, AsyncStorage } from 'react-native';
+import { FlatList } from 'react-native';
+
+import { connect } from 'react-redux';
+import { bindActionsCreators } from 'redux';
 // import  from '@react-native-community/async-storage';
-import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import * as CardActions from '../../store/modules/cart/actions';
+
 import api from '../../services/api';
+import { formatPrice } from '../../util/format';
 
-import { Container, ProductList } from './styles';
+import {
+  Container,
+  Product,
+  ProductImage,
+  ProductTitle,
+  ProductPrice,
+  AddButton,
+  ProductAmount,
+  ProductAmountText,
+  AddButtonText,
+} from './styles';
 
-export default class Main extends Component {
-  // eslint-disable-next-line react/sort-comp
-  // eslint-disable-next-line react/static-property-placement
-  static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func,
-    }).isRequired,
-  };
-
+class Main extends React.Component {
   // eslint-disable-next-line react/state-in-constructor
   state = {
-    newUser: '',
-    users: [],
-    loading: false,
+    products: [],
   };
 
-  async componentDidMount() {
-    const response = await api.get('products');
-
-    const data = response.data.map(product => ({
-      ...product,
-      priceFormatted: formatPrice(product.price),
-    }));
-
-    this.setState({ products: response.data });
+  componentDidMount() {
+    this.getProducts();
   }
+
+  getProducts = async () => {
+    const response = await api.get('/products');
+
+    const data = response.data.map(pro);
+  };
 
   handleAddProduct = id => {
     const { addToCartRequest } = this.props;
@@ -73,7 +77,12 @@ export default class Main extends Component {
     const { users, newUser, loading } = this.state;
     return (
       <Container>
-        <ProductList />
+        <ProductList>
+          <Li>
+            <ProdImage source="https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg" />
+            <Strong>Produto nome Legal</Strong>
+          </Li>
+        </ProductList>
       </Container>
     );
   }
