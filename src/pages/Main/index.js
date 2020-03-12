@@ -11,7 +11,6 @@ import api from '../../services/api';
 import { formatPrice } from '../../util/format';
 
 import {
-  Container,
   Product,
   ProductImage,
   ProductTitle,
@@ -35,7 +34,12 @@ class Main extends React.Component {
   getProducts = async () => {
     const response = await api.get('/products');
 
-    const data = response.data.map(pro);
+    const data = response.data.map(product => ({
+      ...product,
+      priceFormated: formatPrice(product.price),
+    }));
+
+    this.setState({ products: data });
   };
 
   handleAddProduct = id => {
@@ -44,46 +48,21 @@ class Main extends React.Component {
     addToCartRequest(id);
   };
 
-  handleAddUser = async () => {
-    const { users, newUser } = this.state;
-
-    this.setState({ loading: true });
-
-    const response = await api.get(`/users/${newUser}`);
-
-    const data = {
-      name: response.data.name,
-      login: response.data.login,
-      bio: response.data.bio,
-      avatar: response.data.avatar_url,
-    };
-
-    this.setState({
-      users: [...users, data],
-      newUser: '',
-      loading: false,
-    });
-
-    Keyboard.dismiss();
-  };
-
-  handleNavigate = user => {
-    const { navigation } = this.props;
-
-    navigation.navigate('User', { user });
-  };
-
-  render() {
-    const { users, newUser, loading } = this.state;
+  renderProduct = ({ item }) => {
+    const { amount } = this.props;
     return (
-      <Container>
-        <ProductList>
-          <Li>
-            <ProdImage source="https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg" />
-            <Strong>Produto nome Legal</Strong>
-          </Li>
-        </ProductList>
-      </Container>
+      <Product key={item.id}>
+        <ProductImage source={{ uri: item.image }} />
+        <ProductTitle>{item.title}</ProductTitle>
+        <ProductPrice>{item.price}</ProductPrice>
+        <AddButton onPress={() => this.handleAddProduct(item.id)}>
+          <ProductAmount>
+            <Icon name="add-shopping-cart" color="#fff" size={20} />
+            <ProductAmountText>{amount[item.id] || 0}</ProductAmountText>
+          </ProductAmount>
+          <AddButtonText> ADICIONAR</AddButtonText>
+        </AddButton>
+      </Product>
     );
-  }
+  };
 }
