@@ -18,5 +18,3 @@ Nesse desafio o projeto de e-commerce criado na web para dispositivos móveis ut
 Utilizei ESLint, Prettier, EditorConfig, React Navigation e todas outras ferramentas no mundo do React Native.
 
 ### Resultado:
-
-https://github.com/Rocketseat/bootcamp-gostack-desafio-07/raw/master/.github/demo.gif
