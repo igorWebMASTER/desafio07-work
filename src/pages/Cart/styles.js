@@ -22,7 +22,6 @@ export const ProductImage = styled.Image`
   height: 80px;
   width: 80px;
 `;
-
 export const ProductDetails = styled.View`
   flex: 1;
   margin-left: 10px;
@@ -56,7 +55,8 @@ export const ProductAmount = styled.TextInput.attrs({
 })`
   background: #fff;
   padding: 5px;
-  margin: 1px solid #ddd;
+  margin: 0 5px;
+  border: 1px solid #ddd;
   border-radius: 4px;
   min-width: 52px;
 `;
@@ -65,21 +65,17 @@ export const ProductSubtotal = styled.Text`
   font-weight: bold;
   font-size: 16px;
   flex: 1;
-  text-align: center;
+  text-align: right;
 `;
 
 export const TotalContainer = styled.View`
   margin-top: 30px;
 `;
-
 export const TotalText = styled.Text`
   text-align: center;
-  margin-top: 5px;
-  margin-bottom: 30px;
-  font-size: 32px;
+  color: #999;
   font-weight: bold;
 `;
-
 export const TotalAmount = styled.Text`
   text-align: center;
   margin-top: 5px;
@@ -87,7 +83,6 @@ export const TotalAmount = styled.Text`
   font-size: 32px;
   font-weight: bold;
 `;
-
 export const Order = styled.TouchableOpacity`
   background: ${colors.primary};
   padding: 12px;
