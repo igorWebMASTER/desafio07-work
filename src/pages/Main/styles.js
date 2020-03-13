@@ -8,8 +8,9 @@ export const Container = styled.View`
 
 export const Product = styled.View`
   background: #fff;
+  margin-top: 70px;
   padding: 10px;
-  margin: 15px;
+  margin-right: 20px;
   border-radius: 4px;
   width: 220px;
 `;
