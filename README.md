@@ -12,4 +12,4 @@ Neste projeto de e-commerce criado na web para dispositivos móveis utilizei o R
 
 Utilizei ESLint, Prettier, EditorConfig, React Navigation e todas outras ferramentas no mundo do React Native.
 
-![Rocketshoes demo app](assets/demo.gif)
+![Rocketshoes demo app](assets/images/demo.gif)
