@@ -18,11 +18,11 @@ const Routes = createAppContainer(
     {
       // initialRouteName: 'Cart',
       defaultNavigationOptions: navigation => ({
-        header: <Header {...navigation} />,
+        header: () => <Header {...navigation} />,
+        cardStyle: {
+          backgroundColor: colors.dark,
+        },
       }),
-      cardStyle: {
-        backgroundColor: colors.dark,
-      },
     }
   )
 );

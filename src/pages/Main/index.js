@@ -22,7 +22,6 @@ import {
 } from './styles';
 
 class Main extends React.Component {
-  // eslint-disable-next-line react/state-in-constructor
   state = {
     products: [],
   };
